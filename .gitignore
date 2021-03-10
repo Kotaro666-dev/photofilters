@@ -12,3 +12,5 @@ ios/Runner/GeneratedPluginRegistrant.*
 
 test/res/
 test/out/
+/.idea/
+/.fvm/
