@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:photofilters/photofilters.dart';
 import 'package:image/image.dart' as imageLib;
-// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 void main() => runApp(new MaterialApp(home: MyApp()));
 
@@ -17,12 +17,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String fileName;
   List<Filter> filters = presetFiltersList;
-  File imageFile;
+  PickedFile imageFile;
+  File file;
 
   Future getImage(context) async {
-    // imageFile = await ImagePicker.pickImage(source: ImageSource.gallery);
+    imageFile = await ImagePicker().getImage(source: ImageSource.gallery);
     fileName = basename(imageFile.path);
-    var image = imageLib.decodeImage(imageFile.readAsBytesSync());
+    file = File(imageFile.path);
+    var image = imageLib.decodeImage(file.readAsBytesSync());
     image = imageLib.copyResize(image, width: 600);
     Map imagefile = await Navigator.push(
       context,
@@ -57,7 +59,7 @@ class _MyAppState extends State<MyApp> {
               ? Center(
                   child: new Text('No image selected.'),
                 )
-              : Image.file(imageFile),
+              : Image.file(file),
         ),
       ),
       floatingActionButton: new FloatingActionButton(
